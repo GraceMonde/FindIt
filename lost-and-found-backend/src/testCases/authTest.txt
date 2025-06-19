@@ -1,0 +1,80 @@
+#Register User
+Method: POST
+URL: http://localhost:3000/api/auth/register
+
+#Under JSON
+{
+  "email": "testuser@example.com",
+  "password": "password123",
+  "name": "Test User",
+  "student_id": "2025001",
+  "phone_number": "0978123456"
+}
+
+#Expected outcome
+{
+  "message": "User registered successfully",
+  "user": {
+    "user_id": "...",
+    "email": "testuser@example.com",
+    "name": "Test User"
+  },
+  "token": "eyJhbGciOi..."
+}
+
+------------------------------------------------
+
+#Login
+Method: POST
+URL: http://localhost:3000/api/auth/login
+
+{
+  "email": "testuser@example.com",
+  "password": "password123"
+}
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiY2Y4MWVlZjMtNGM1Ni0xMWYwLWFkNjAtZjg3NWE0YjM1MzRjIiwiZW1haWwiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsIm5hbWUiOiJUZXN0IFVzZXIiLCJpYXQiOjE3NTAzMzc0MjAsImV4cCI6MTc1MDk0MjIyMH0.swjOVTOac4yPunezQy1QwHM6SYTj42X8IfK_7o-vY1g
+
+#Expected outcome
+{
+  "message": "Login successful",
+  "user": {
+    "user_id": "...",
+    "email": "testuser@example.com",
+    "name": "Test User"
+  },
+  "token": "eyJhbGciOi..."
+}
+
+-------------------------------------------------
+
+#Get Profile
+Method: GET
+URL: http://localhost:3000/api/auth/profile
+
+#Headers
+Key: Authorization
+Value: Bearer <paste_token_here>
+
+#Expected outcome
+{
+  "user_id": "...",
+  "email": "testuser@example.com",
+  "name": "Test User",
+  "student_id": "2025001",
+  "phone_number": "0978123456"
+}
+
+---------------------------------------------
+
+#Logout
+Method: POST
+URL: http://localhost:3000/api/auth/logout
+
+#Headers
+Authorization: Bearer <paste_token_here>
+
+#Expected outcome
+{
+  "message": "Logged out successfully"
+}

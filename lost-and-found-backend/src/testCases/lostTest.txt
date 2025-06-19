@@ -1,0 +1,103 @@
+#Create Lost Item
+Method: POST
+URL: http://localhost:3000/api/lost-items
+
+#Headers
+Authorization: Bearer <paste_token_here>
+Content-Type: application/json
+
+{
+  "title": "Bag",
+  "description": "Lost near the library. Contains my student ID and cards.",
+  "category_id": 1,
+  "last_seen_location_id": 9,
+  "last_seen_location_description": "Under the main desk in the library",
+  "date_last_seen": "2025-06-05",
+  "time_last_seen": "2025-06-05T13:00:00",
+  "additional_contact_info": "Call 0977123456"
+}
+
+#Expected outcome
+{
+  "message": "Lost item reported successfully",
+  "item": {
+    "lost_item_id": "...",
+    "user_id": "...",
+    "title": "Black Wallet",
+    "description": "Lost near the library. Contains my student ID and cards.",
+    "category_id": 1,
+    "last_seen_location_id": 10,
+    "status": "Open"
+  }
+}
+
+--------------------------------------------
+
+#Get all lost items
+Method: GET
+URL: http://localhost:3000/api/lost-items
+
+#Expected outcome
+[
+  {
+    "lost_item_id": "...",
+    "title": "Black Wallet",
+    "description": "Lost near the library...",
+    "status": "Open",
+    "created_at": "...",
+    ...
+  },
+  ...
+]
+
+-----------------------------------------------
+
+#Get a single lost item
+Method: GET
+URL: http://localhost:3000/api/lost-items/<item_id>
+
+#Expected outcome
+{
+  "lost_item_id": "...",
+  "title": "Black Wallet",
+  "description": "Lost near the library...",
+  "status": "Open",
+  ...
+}
+
+--------------------------------------------------
+
+#Update lost item
+Method: PUT
+URL: http://localhost:3000/api/lost-items/<item_id>
+
+#Headers
+Authorization: Bearer <paste_token_here>
+Content-Type: application/json
+
+{
+  "title": "Black Leather Wallet",
+  "description": "Updated description: now I realize I lost it near the cafeteria.",
+  "category_id": 1,
+  "last_seen_location_description": "Cafeteria table near entrance",
+  "status": "Open"
+}
+
+#Expected outcome
+{
+  "message": "Lost item updated successfully"
+}
+
+------------------------------------------------
+
+#Delete lost item
+Method: DELETE
+URL: http://localhost:3000/api/lost-items/<item_id>
+
+#Headers
+Authorization: Bearer <paste_token_here>
+
+#Expected outcome
+{
+  "message": "Lost item deleted successfully"
+}

@@ -8,8 +8,8 @@ router.post('/register', authController.registerUser);
 router.post('/login', authController.loginUser);
 
 //protected because user needs to be authenticated first
-router.post('/logout', authController.logoutUser);
-router.get('/profile', authController.getUserProfile);
-router.put('/profile', authController.updateUserProfile);
+router.post('/logout', authenticateToken, authController.logoutUser);
+router.get('/profile', authenticateToken, authController.getUserProfile);
+router.put('/profile', authenticateToken, authController.updateUserProfile);
 
 module.exports = router;

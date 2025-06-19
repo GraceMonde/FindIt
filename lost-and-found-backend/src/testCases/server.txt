@@ -1,0 +1,23 @@
+---Using thundercat---
+
+node server.js
+
+#Expected outcome:
+Server is running on port 3000
+Database connected successfully
+
+-----------------------------------------------
+
+#Health check
+Method: GET
+URL: http://localhost:3000/health
+
+#Expected outcome:
+{
+  "status": "OK",
+  "message": "Lost and Found API is running",
+  "timestamp": "..."
+}
+
+---------------------------------------------
+

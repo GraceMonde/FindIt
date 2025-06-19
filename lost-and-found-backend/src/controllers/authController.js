@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
 
         //check that the user exists in the database
         const query = 'SELECT * FROM users WHERE email = ? AND is_deleted = FALSE';
-        const users = await executeQuery(query, [email]);
+        const users = await executeQuery('SELECT user_id, email, name, password_hash FROM users WHERE email = ?', [email]);
 
         if (!users.length) {
             return res.status(404).json({ message: 'User not found' });
@@ -39,7 +39,7 @@ const loginUser = async (req, res) => {
         const user = users[0];
 
         //comparing the password with the hashed one in the db
-        const isMatch = await bcrypt.compare(password, user.password_harsh);
+        const isMatch = await bcrypt.compare(password, user.password_hash);
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
@@ -89,7 +89,7 @@ const logoutUser = async (req, res) => {
     }
 };
 
-const getProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
     try {
         const userId = req.user.user_id;
 
@@ -107,7 +107,7 @@ const getProfile = async (req, res) => {
     }
 };
 
-const updateProfile = async (req, res) => {
+const updateUserProfile = async (req, res) => {
     try {
         const userId = req.user.user_id;
         const { name, phone_number, profile_image_url } = req.body;
@@ -131,6 +131,6 @@ module.exports = {
     registerUser,
     loginUser,
     logoutUser,
-    getProfile,
-    updateProfile
+    getUserProfile,
+    updateUserProfile,
 };
