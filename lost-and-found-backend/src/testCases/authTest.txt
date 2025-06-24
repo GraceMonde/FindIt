@@ -33,8 +33,6 @@ URL: http://localhost:3000/api/auth/login
   "password": "password123"
 }
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiY2Y4MWVlZjMtNGM1Ni0xMWYwLWFkNjAtZjg3NWE0YjM1MzRjIiwiZW1haWwiOiJ0ZXN0dXNlckBleGFtcGxlLmNvbSIsIm5hbWUiOiJUZXN0IFVzZXIiLCJpYXQiOjE3NTAzMzc0MjAsImV4cCI6MTc1MDk0MjIyMH0.swjOVTOac4yPunezQy1QwHM6SYTj42X8IfK_7o-vY1g
-
 #Expected outcome
 {
   "message": "Login successful",
