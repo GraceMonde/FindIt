@@ -1,0 +1,114 @@
+#Create Found Item
+Method: POST
+URL: http://localhost:3000/api/found-items
+
+#Headers:
+Authorization: Bearer <paste_token_here>
+Content-Type: application/json
+
+#JSON Body:
+{
+  "title": "camera",
+  "description": "2 lens with a black pouch",
+  "category_id": 2,
+  "location_found_id": 1,
+  "location_found_description": "UNZA Library",
+  "date_found": "2025-06-01",
+  "time_found": "14:30:00",
+  "question_one": "what color is it",
+  "answer_one": "red",
+  "question_two": "what size is it",
+  "answer_two": "4",
+  "question_three": "how small is it",
+  "answer_three": "extremely"
+}
+
+#Expected outcome:
+{
+  "message": "Found item created successfully",
+  "item_id": "..."
+}
+
+-----------------------------------------------------------------------
+
+🔹 Get All Found Items
+Method: GET
+URL: http://localhost:3000/api/found-items
+
+#Query params (optional):
+?category_id=2&location_id=1&search=wallet&page=1&limit=10
+
+#Expected outcome:
+{
+  "found_item_id": "...",
+  "title": "Found Wallet",
+  "description": "Brown leather wallet...",
+  "category_id": 2,
+  "last_seen_location_id": 1,
+  "last_seen_location_description": "UNZA Library",
+  "date_found": "2025-06-01",
+  "time_found": "14:30:00",
+  "created_at": "...",
+  "user_id": "...",
+  "is_deleted": false
+}
+ 
+------------------------------------------------------------------------------
+
+🔹 Get Specific Found Item
+Method: GET
+URL: http://localhost:3000/api/found-items/<item_id>
+
+#Expected outcome:
+{
+  "found_item_id": "...",
+  "title": "Found Wallet",
+  "description": "Brown leather wallet...",
+  "category_id": 2,
+  "last_seen_location_id": 1,
+  "last_seen_location_description": "UNZA Library",
+  "date_found": "2025-06-01",
+  "time_found": "14:30:00",
+  "user_id": "...",
+  "is_deleted": false
+}
+
+-----------------------------------------------------------------------
+
+🔹 Update Found Item
+Method: PUT
+URL: http://localhost:3000/api/found-items/<item_id>
+
+#Headers:
+Authorization: Bearer <paste_token_here>
+Content-Type: application/json
+
+#JSON Body:
+{
+  "title": "Updated Found Wallet",
+  "description": "Updated: Contains several cards",
+  "category_id": 2,
+  "last_seen_location_id": 1,
+  "last_seen_location_description": "Updated location",
+  "date_found": "2025-06-01",
+  "time_found": "14:30:00"
+}
+
+#Expected outcome:
+{
+  "message": "Found item updated successfully"
+}
+
+-----------------------------------------------------------------------
+
+🔹 Delete Found Item
+Method: DELETE
+URL: http://localhost:3000/api/found-items/<item_id>
+
+#Headers:
+Authorization: Bearer <paste_token_here>
+
+#Expected outcome:
+{
+  "message": "Found item deleted successfully"
+}

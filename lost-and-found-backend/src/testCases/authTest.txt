@@ -33,6 +33,8 @@ URL: http://localhost:3000/api/auth/login
   "password": "password123"
 }
 
+TOKEN: 
+
 #Expected outcome
 {
   "message": "Login successful",

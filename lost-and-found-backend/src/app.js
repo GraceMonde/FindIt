@@ -1,5 +1,11 @@
 //various imports of middleware
 const express = require('express'); //web frameworks used to handle HTTP requests
+
+//checking for environment variables
+if (!process.env.JWT_SECRET) {
+    throw new Error("Missing JWT_SECRET in environment variables");
+}
+
 //console.log('Express version:', require('express/package.json').version);
 const cors = require('cors'); //allows backend to accept requests
 const helmet = require('helmet'); //adds security headers to responses
@@ -7,6 +13,7 @@ const rateLimit = require('express-rate-limit'); //library that limits how many 
 const { testConnection } = require('./config/database'); //imports the func from database.js, called during app startup
 const authRoutes = require('./routes/authRoutes');
 const lostItemRoutes = require('./routes/lostItemRoutes');
+const foundItemRoutes = require('./routes/foundItemRoutes');
 
 //app initialization
 const app = express(); //app will be used to define shortcuts to routes
@@ -53,6 +60,7 @@ app.get('/health', (req, res) => {
 //mounting api routes
 app.use('/api/auth', authRoutes);
 app.use('/api/lost-items', lostItemRoutes);
+app.use('/api/found-items', foundItemRoutes);
 
 // 404 fallback
 app.use((req, res) => {

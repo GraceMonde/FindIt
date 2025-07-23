@@ -1,4 +1,5 @@
 ---Using thundercat---
+#should be in lost-and-found-backend folder
 
 node server.js
 
