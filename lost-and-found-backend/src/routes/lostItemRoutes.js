@@ -1,16 +1,21 @@
-const express = require('express');
+// routes/lostItemRoutes.js
+import express from 'express';
+import * as lostItemController from '../../src/controllers/lostItemController.js';
+import { authenticateFirebaseToken } from '../../src/middleware/authMiddleware.js';
+
 const router = express.Router();
 
-const lostItemController = require('../controllers/lostItemController');
-const { authenticateToken } = require('../middleware/authMiddleware');
+// ==============================
+// Public Routes
+// ==============================
+router.get('/', lostItemController.getAllLostItems);
+router.get('/:id', lostItemController.getLostItemById);
 
-//public routes
-router.get('/', lostItemController.getAllLostItems); //lists all items
-router.get('/:id', lostItemController.getLostItemById); //getting one item
+// ==============================
+// Protected Routes (Require Auth)
+// ==============================
+router.post('/', authenticateFirebaseToken, lostItemController.createLostItem);
+router.put('/:id', authenticateFirebaseToken, lostItemController.updateLostItem);
+router.delete('/:id', authenticateFirebaseToken, lostItemController.deleteLostItem);
 
-//protected routes
-router.post('/', authenticateToken, lostItemController.createLostItem); //post item
-router.put('/:id', authenticateToken, lostItemController.updateLostItem); //update item
-router.delete('/:id', authenticateToken, lostItemController.deleteLostItem); //delete item
-
-module.exports = router;
+export default router;

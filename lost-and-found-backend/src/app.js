@@ -1,54 +1,40 @@
-//various imports of middleware
-const express = require('express'); //web frameworks used to handle HTTP requests
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import authRoutes from './routes/authRoutes.js';
+import lostItemRoutes from './routes/lostItemRoutes.js';
+import foundItemRoutes from './routes/foundItemRoutes.js';
 
-//checking for environment variables
-if (!process.env.JWT_SECRET) {
-    throw new Error("Missing JWT_SECRET in environment variables");
-}
+// App initialization
+const app = express(); 
 
-//console.log('Express version:', require('express/package.json').version);
-const cors = require('cors'); //allows backend to accept requests
-const helmet = require('helmet'); //adds security headers to responses
-const rateLimit = require('express-rate-limit'); //library that limits how many requests a user can make in a time frame
-const { testConnection } = require('./config/database'); //imports the func from database.js, called during app startup
-const authRoutes = require('./routes/authRoutes');
-const lostItemRoutes = require('./routes/lostItemRoutes');
-const foundItemRoutes = require('./routes/foundItemRoutes');
-
-//app initialization
-const app = express(); //app will be used to define shortcuts to routes
-
-//security and middleware setup
-app.use(helmet());
+// Security and middleware setup
+app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: ['http://127.0.0.1:5500', 'http://localhost:5500'], 
     credentials: true
 }));
 
-//rate limiter only allows 100 requests per 15 minutes per IP 
+// Rate limiter
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000,
+    windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100,
     message: 'Too many requests from this IP, please try again later.'
 });
-
-//for logging, debugging
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.originalUrl}`);
-  next();
-});
-
-
 app.use('/api/', limiter);
 
-// middleware 
+// Logging middleware
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.originalUrl}`);
+    next();
+});
+
+// Body parsers
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-//testing the database conn when starting
-testConnection();
-
-//checkiing the route health
+// Health check route
 app.get('/health', (req, res) => {
     res.json({
         status: 'OK',
@@ -57,7 +43,7 @@ app.get('/health', (req, res) => {
     });
 });
 
-//mounting api routes
+// Mounting API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/lost-items', lostItemRoutes);
 app.use('/api/found-items', foundItemRoutes);
@@ -70,14 +56,13 @@ app.use((req, res) => {
     });
 });
 
-// global error handling
+// Global error handler
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    console.error(err.message, err.stack);
     res.status(500).json({
         error: 'Something went wrong!',
         message: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error'
     });
 });
 
-//export the express app
-module.exports = app;
+export default app;

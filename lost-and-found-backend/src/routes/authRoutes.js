@@ -1,15 +1,24 @@
-const express = require('express');
+// routes/authRoutes.js
+import express from 'express';
+import { 
+  registerUser, 
+  loginUser, 
+  logoutUser, 
+  getUserProfile, 
+  updateUserProfile 
+} from '../controllers/authController.js';
+
+import { authenticateFirebaseToken } from '../../src/middleware/authMiddleware.js';
+
 const router = express.Router();
-const authController = require('../controllers/authController');
-const { authenticateToken } = require('../middleware/authMiddleware');
 
-//public r
-router.post('/register', authController.registerUser);
-router.post('/login', authController.loginUser);
+// Public routes
+router.post('/register', registerUser);
+router.post('/login', loginUser);
 
-//protected because user needs to be authenticated first
-router.post('/logout', authenticateToken, authController.logoutUser);
-router.get('/profile', authenticateToken, authController.getUserProfile);
-router.put('/profile', authenticateToken, authController.updateUserProfile);
+// Protected routes (require valid Firebase token)
+router.post('/logout', authenticateFirebaseToken, logoutUser);
+router.get('/profile', authenticateFirebaseToken, getUserProfile);
+router.put('/profile', authenticateFirebaseToken, updateUserProfile);
 
-module.exports = router;
+export default router;

@@ -1,15 +1,26 @@
-const express = require('express');
+import express from 'express';
+import {
+  getAllFoundItems,
+  getFoundItemById,
+  createFoundItem,
+  updateFoundItem,
+  deleteFoundItem
+} from '../controllers/foundItemController.js';
+import { authenticateFirebaseToken } from '../../src/middleware/authMiddleware.js';
+
 const router = express.Router();
-const foundItemController = require('../controllers/foundItemController');
-const { authenticateToken } = require('../middleware/authMiddleware');
 
-//public routes
-router.get('/', foundItemController.getAllFoundItems);
-router.get('/:id', foundItemController.getFoundItemById);
+// =========================
+// Public routes
+// =========================
+router.get('/', getAllFoundItems);
+router.get('/:id', getFoundItemById);
 
-//protected routes
-router.post('/', authenticateToken, foundItemController.createFoundItem);
-router.put('/:id', authenticateToken, foundItemController.updateFoundItem);
-router.delete('/:id', authenticateToken, foundItemController.deleteFoundItem);
+// =========================
+// Protected routes
+// =========================
+router.post('/', authenticateFirebaseToken, createFoundItem);
+router.put('/:id', authenticateFirebaseToken, updateFoundItem);
+router.delete('/:id', authenticateFirebaseToken, deleteFoundItem);
 
-module.exports = router;
+export default router;
