@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-config/findit-910-firebase-adminsdk-fbsvc-a45ecde566.json
+src/config/findit-910-firebase-adminsdk-fbsvc-a45ecde566.json
 
 # Environment variables
 .env
