@@ -12,9 +12,9 @@ function closeModal() {
 }
 
 function openProfileModal() {
-    document.getElementById('profile-name').value = currentUser.name;
-    document.getElementById('profile-email').value = currentUser.email;
-    document.getElementById('profile-phone').value = currentUser.phone;
+    document.getElementById('profile-name').value = currentUser.name || '';
+    document.getElementById('profile-email').value = currentUser.email || '';
+    document.getElementById('profile-phone').value = currentUser.phone_number || '';
     document.getElementById('profile-modal').style.display = 'block';
 }
 

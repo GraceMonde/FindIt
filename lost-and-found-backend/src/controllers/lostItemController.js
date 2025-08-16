@@ -6,9 +6,9 @@ import {
   deleteLostItem as deleteLostItemInFirestore
 } from '../config/firestore.js';
 
-// =========================
+
 // Get all lost items
-// =========================
+
 export const getAllLostItems = async (req, res) => {
   try {
     const items = await getAllLostItemsFromFirestore();
@@ -19,9 +19,9 @@ export const getAllLostItems = async (req, res) => {
   }
 };
 
-// =========================
+
 // Create a new lost item
-// =========================
+
 export const createLostItem = async (req, res) => {
   try {
     const { 
@@ -35,7 +35,7 @@ export const createLostItem = async (req, res) => {
       additional_contact_info 
     } = req.body;
 
-    const user_id = req.user.user_id; // coming from auth middleware
+    const user_id = req.user.user_id; 
     const user_name = req.user.name;
 
     const itemData = {
@@ -72,9 +72,8 @@ export const createLostItem = async (req, res) => {
   }
 };
 
-// =========================
 // Get single lost item by ID
-// =========================
+
 export const getLostItemById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -91,9 +90,8 @@ export const getLostItemById = async (req, res) => {
   }
 };
 
-// =========================
 // Update a lost item
-// =========================
+
 export const updateLostItem = async (req, res) => {
   try {
     const { id } = req.params;
@@ -111,9 +109,9 @@ export const updateLostItem = async (req, res) => {
   }
 };
 
-// =========================
+
 // Soft delete a lost item
-// =========================
+
 export const deleteLostItem = async (req, res) => {
   try {
     const { id } = req.params;

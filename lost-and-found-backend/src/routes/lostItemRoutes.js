@@ -5,15 +5,13 @@ import { authenticateFirebaseToken } from '../../src/middleware/authMiddleware.j
 
 const router = express.Router();
 
-// ==============================
 // Public Routes
-// ==============================
+
 router.get('/', lostItemController.getAllLostItems);
 router.get('/:id', lostItemController.getLostItemById);
 
-// ==============================
 // Protected Routes (Require Auth)
-// ==============================
+
 router.post('/', authenticateFirebaseToken, lostItemController.createLostItem);
 router.put('/:id', authenticateFirebaseToken, lostItemController.updateLostItem);
 router.delete('/:id', authenticateFirebaseToken, lostItemController.deleteLostItem);

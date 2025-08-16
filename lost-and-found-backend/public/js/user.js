@@ -5,7 +5,6 @@ let currentUser = null;
 
 async function loadUserProfile() {
     if (!authToken) {
-        // Redirect if token not found
         window.location.href = 'login.html';
         return;
     }
@@ -17,7 +16,7 @@ async function loadUserProfile() {
 
         if (res.ok) {
             const data = await res.json();
-            currentUser = data.user;
+            currentUser = data.user || data; // support both {user: {...}} and {...}
 
             // Display user name
             const userNameElem = document.getElementById('user-name');
@@ -82,6 +81,11 @@ async function handleProfileUpdate(e) {
         console.error('Profile update error:', error);
         showErrorMessage('Network error. Please try again.');
     }
+}
+
+function handleLogout() {
+    localStorage.removeItem('authToken');
+    window.location.href = 'login.html';
 }
 
 // Auto-load profile when DOM is ready

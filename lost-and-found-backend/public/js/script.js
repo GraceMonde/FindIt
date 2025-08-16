@@ -155,7 +155,7 @@
             authToken = null;
             currentUser = null;
             localStorage.removeItem('authToken');
-            showAuthScreen();
+            window.location.href = "pages/login.html"; // Redirect to login page
         }
 
         function toggleAuthForm() {
@@ -211,12 +211,17 @@
                     fetch(`${API_BASE_URL}/found-items`)
                 ]);
 
+                // lostResponse returns { items: [...] }, foundResponse returns array or { items: [...] }
                 const lostData = await lostResponse.json();
                 const foundData = await foundResponse.json();
 
+                // Normalize foundData if needed
+                const foundItems = Array.isArray(foundData) ? foundData : (foundData.items || []);
+                const lostItems = Array.isArray(lostData) ? lostData : (lostData.items || []);
+
                 const allItems = [
-                    ...lostData.items.map(item => ({ ...item, type: 'lost' })),
-                    ...foundData.items.map(item => ({ ...item, type: 'found' }))
+                    ...lostItems.map(item => ({ ...item, type: 'lost' })),
+                    ...foundItems.map(item => ({ ...item, type: 'found' }))
                 ];
 
                 displayItems(allItems);
@@ -236,10 +241,10 @@
                     <span class="item-badge badge-${item.type}">${item.type.toUpperCase()}</span>
                     <h3>${item.title}</h3>
                     <p><strong>Description:</strong> ${item.description}</p>
-                    <p><strong>Location:</strong> ${item.location}</p>
-                    <p><strong>Date:</strong> ${new Date(item.date).toLocaleDateString()}</p>
-                    <p><strong>Category:</strong> ${item.category}</p>
-                    <p><strong>Contact:</strong> ${item.user_email}</p>
+                    <p><strong>Location:</strong> ${item.last_seen_location_description || item.location_found_description || item.location || ''}</p>
+                    <p><strong>Date:</strong> ${item.date_last_seen || item.date_found || item.date || ''}</p>
+                    <p><strong>Category:</strong> ${item.category_id || item.category || ''}</p>
+                    <p><strong>Contact:</strong> ${item.user_name || ''}</p>
                 </div>
             `).join('');
 
@@ -299,20 +304,41 @@
             const itemData = {
                 title: document.getElementById('item-title').value,
                 description: document.getElementById('item-description').value,
-                category: document.getElementById('item-category').value,
-                location: document.getElementById('item-location').value,
-                date: document.getElementById('item-date').value,
+                category_id: document.getElementById('item-category').value,
+                last_seen_location_description: document.getElementById('item-location').value,
+                location_found_description: document.getElementById('item-location').value,
+                date_last_seen: document.getElementById('item-date').value,
+                date_found: document.getElementById('item-date').value,
             };
 
             try {
-                const endpoint = currentReportType === 'lost' ? 'lost-items' : 'found-items';
+                let endpoint, body;
+                if (currentReportType === 'lost') {
+                    endpoint = 'lost-items';
+                    body = {
+                        title: itemData.title,
+                        description: itemData.description,
+                        category_id: itemData.category_id,
+                        last_seen_location_description: itemData.last_seen_location_description,
+                        date_last_seen: itemData.date_last_seen
+                    };
+                } else {
+                    endpoint = 'found-items';
+                    body = {
+                        title: itemData.title,
+                        description: itemData.description,
+                        category_id: itemData.category_id,
+                        location_found_description: itemData.location_found_description,
+                        date_found: itemData.date_found
+                    };
+                }
                 const response = await fetch(`${API_BASE_URL}/${endpoint}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authToken}`,
                     },
-                    body: JSON.stringify(itemData),
+                    body: JSON.stringify(body),
                 });
 
                 if (response.ok) {
@@ -331,7 +357,7 @@
         function openProfileModal() {
             document.getElementById('profile-name').value = currentUser.name || '';
             document.getElementById('profile-email').value = currentUser.email || '';
-            document.getElementById('profile-phone').value = currentUser.phone || '';
+            document.getElementById('profile-phone').value = currentUser.phone_number || '';
             profileModal.style.display = 'block';
         }
 

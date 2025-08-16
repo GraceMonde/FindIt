@@ -5,9 +5,17 @@ import rateLimit from 'express-rate-limit';
 import authRoutes from './routes/authRoutes.js';
 import lostItemRoutes from './routes/lostItemRoutes.js';
 import foundItemRoutes from './routes/foundItemRoutes.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // App initialization
 const app = express(); 
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Security and middleware setup
 app.use(helmet({ crossOriginResourcePolicy: false }));

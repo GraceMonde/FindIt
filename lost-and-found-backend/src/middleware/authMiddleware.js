@@ -12,7 +12,7 @@ export const authenticateFirebaseToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // { user_id, email, name }
+    req.user = decoded; 
     next();
   } catch (error) {
     console.error('JWT verification error:', error.message);

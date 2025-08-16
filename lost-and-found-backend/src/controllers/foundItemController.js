@@ -6,9 +6,9 @@ import {
   deleteFoundItem as deleteFoundItemInFirestore
 } from '../config/firestore.js';
 
-// =========================
-// Get all found items (with optional filters)
-// =========================
+// Get all found items 
+//has optional filters for category, location, and search text
+
 export const getAllFoundItems = async (req, res) => {
   try {
     const { category_id, location_id, search } = req.query;
@@ -33,9 +33,8 @@ export const getAllFoundItems = async (req, res) => {
   }
 };
 
-// =========================
 // Get single found item by ID
-// =========================
+
 export const getFoundItemById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -52,9 +51,9 @@ export const getFoundItemById = async (req, res) => {
   }
 };
 
-// =========================
+
 // Create a new found item
-// =========================
+
 export const createFoundItem = async (req, res) => {
   try {
     const {
@@ -103,9 +102,8 @@ export const createFoundItem = async (req, res) => {
   }
 };
 
-// =========================
 // Update a found item
-// =========================
+
 export const updateFoundItem = async (req, res) => {
   try {
     const { id } = req.params;
@@ -123,9 +121,8 @@ export const updateFoundItem = async (req, res) => {
   }
 };
 
-// =========================
 // Soft delete a found item
-// =========================
+
 export const deleteFoundItem = async (req, res) => {
   try {
     const { id } = req.params;
