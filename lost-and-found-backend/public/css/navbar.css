@@ -1,0 +1,24 @@
+.navbar-style {
+  display: flex;
+  padding: 1.3rem;
+  background-color: lightblue;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+}
+
+.navbar-right-navbar-style {
+  display: flex;
+  width: 20%;
+  justify-content: space-around;
+  gap: 1rem;
+}
+.navbar-right-navbar-style a,
+.navbar-brand-navbar-style {
+  text-decoration: none;
+  color: white;
+  font-size: 21px;
+}
+.navbar-right-navbar-style a:hover {
+  color: #023047;
+  transition-duration: 400ms;
+}
