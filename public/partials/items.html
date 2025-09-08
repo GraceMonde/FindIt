@@ -1,0 +1,54 @@
+<div class="search-form">
+    <h2>Search Items</h2>
+    <form id="search-form">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="q" class="form-label">Keywords</label>
+                <input type="text" class="form-control" id="q" name="q" placeholder="Search by title or description">
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="type" class="form-label">Type</label>
+                <select class="form-select" id="type" name="type">
+                    <option value="">All Types</option>
+                    <option value="lost">Lost</option>
+                    <option value="found">Found</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="categoryId" class="form-label">Category</label>
+                <select class="form-select" id="categoryId" name="categoryId">
+                    <option value="">All Categories</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="locationId" class="form-label">Location</label>
+                <select class="form-select" id="locationId" name="locationId">
+                    <option value="">All Locations</option>
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select class="form-select" id="status" name="status">
+                    <option value="">All Statuses</option>
+                    <option value="Open">Open</option>
+                    <option value="Claimed">Claimed</option>
+                    <option value="Returned">Returned</option>
+                </select>
+            </div>
+        </div>
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+</div>
+
+<div class="mb-4">
+    <h2>Items</h2>
+    <div class="row" id="items-container">
+        <div class="col-12 text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>

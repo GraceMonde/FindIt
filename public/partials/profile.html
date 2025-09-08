@@ -1,0 +1,52 @@
+<div class="profile-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 id="profile-name">User Name</h1>
+            <p class="lead">
+                <span id="profile-email">email@example.com</span> | 
+                <span id="profile-comp">Computer ID</span> | 
+                <span id="profile-school">School Name</span>
+            </p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="/items/create" class="btn btn-primary">Report New Item</a>
+        </div>
+    </div>
+    
+    <div class="profile-stats">
+        <div class="profile-stat">
+            <div class="profile-stat-value" id="items-found">0</div>
+            <div>Items Found</div>
+        </div>
+        <div class="profile-stat">
+            <div class="profile-stat-value" id="items-lost">0</div>
+            <div>Items Lost</div>
+        </div>
+        <div class="profile-stat">
+            <div class="profile-stat-value" id="items-returned">0</div>
+            <div>Items Returned</div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4">
+    <h2>My Items</h2>
+    <div class="row" id="user-items">
+        <div class="col-12 text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4">
+    <h2>My Claims</h2>
+    <div class="row" id="user-claims">
+        <div class="col-12 text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>

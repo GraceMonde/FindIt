@@ -1,0 +1,74 @@
+<div class="item-detail-header">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 id="item-title">Item Title</h1>
+            <div class="item-detail-meta">
+                <span id="item-type" class="badge bg-success">Type</span>
+                <span id="item-status" class="badge bg-secondary">Status</span>
+                <span class="text-muted"><i class="fas fa-tag"></i> <span id="item-category">Category</span></span>
+                <span class="text-muted"><i class="fas fa-map-marker-alt"></i> <span id="item-location">Location</span></span>
+                <span class="text-muted"><i class="fas fa-calendar"></i> <span id="item-date">Date</span></span>
+            </div>
+        </div>
+        <div class="col-md-4 text-end">
+            <button id="claim-item-btn" class="btn btn-primary">Claim This Item</button>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Description</h5>
+            </div>
+            <div class="card-body">
+                <p id="item-description" class="card-text">Item description goes here.</p>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Security Questions</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text">To claim this item, you'll need to answer the following security questions:</p>
+                <ul id="security-questions-list">
+                    <li>Loading...</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4" id="image-carousel" style="display: none;">
+            <div class="card-header">
+                <h5 class="mb-0">Images</h5>
+            </div>
+            <div class="card-body p-0">
+                <div id="item-images-carousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="item-images">
+                        <!-- Images will be loaded here -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#item-images-carousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#item-images-carousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Contact Information</h5>
+            </div>
+            <div class="card-body">
+                <p class="card-text" id="additional-contact-info">Additional contact information will be displayed here.</p>
+            </div>
+        </div>
+    </div>
+</div>
