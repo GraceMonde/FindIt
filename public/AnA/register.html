@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FindIt</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .register-header h1 {
+            color: #28a745;
+            font-weight: 700;
+        }
+        
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+        
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 3px;
+            background-color: #e9ecef;
+        }
+        
+        .password-strength div {
+            height: 100%;
+            border-radius: 3px;
+            width: 0;
+            transition: width 0.3s ease;
+        }
+        
+        .strength-weak {
+            background-color: #dc3545;
+            width: 33%;
+        }
+        
+        .strength-medium {
+            background-color: #ffc107;
+            width: 66%;
+        }
+        
+        .strength-strong {
+            background-color: #28a745;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <h1><i class="fas fa-user-plus"></i> FindIt</h1>
+            <p class="text-muted">Create a new account</p>
+        </div>
+        
+        <form id="register-form">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label for="comp" class="form-label">Computer ID</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                        <input type="text" class="form-control" id="comp" placeholder="Enter your computer ID" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="school" class="form-label">School</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-school"></i></span>
+                    <input type="text" class="form-control" id="school" placeholder="Enter your school name" required>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    <input type="password" class="form-control" id="password" placeholder="Create a password" required>
+                    <button class="btn btn-outline-secondary toggle-password" type="button">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div class="password-strength">
+                    <div id="password-strength-indicator"></div>
+                </div>
+                <div class="form-text">Password must be at least 6 characters long.</div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="confirm-password" class="form-label">Confirm Password</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                    <input type="password" class="form-control" id="confirm-password" placeholder="Confirm your password" required>
+                    <button class="btn btn-outline-secondary toggle-confirm-password" type="button">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                <div id="password-match" class="form-text"></div>
+            </div>
+            
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="terms-agree" required>
+                <label class="form-check-label" for="terms-agree">
+                    I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a>
+                </label>
+            </div>
+            
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success">Register</button>
+            </div>
+        </form>
+        
+        <div class="text-center mt-3">
+            <p>Already have an account? <a href="login.html" class="text-decoration-none">Login here</a></p>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </div>
+    
+    <!-- Terms and Conditions Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>1. Acceptance of Terms</h6>
+                    <p>By creating an account on FindIt, you agree to be bound by these Terms and Conditions.</p>
+                    
+                    <h6>2. User Responsibilities</h6>
+                    <p>You are responsible for maintaining the confidentiality of your account and password.</p>
+                    
+                    <h6>3. Prohibited Activities</h6>
+                    <p>You may not use the service for any illegal or unauthorized purpose.</p>
+                    
+                    <h6>4. Privacy Policy</h6>
+                    <p>Your use of the service is also governed by our Privacy Policy.</p>
+                    
+                    <h6>5. Termination</h6>
+                    <p>We may terminate or suspend your account immediately, without prior notice or liability, for any reason whatsoever.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Auth JS -->
+    <script src="auth.js"></script>
+    
+    <script>
+        // DOM Elements
+        const registerForm = document.getElementById('register-form');
+        const nameInput = document.getElementById('name');
+        const compInput = document.getElementById('comp');
+        const emailInput = document.getElementById('email');
+        const schoolInput = document.getElementById('school');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const togglePasswordBtn = document.querySelector('.toggle-password');
+        const toggleConfirmPasswordBtn = document.querySelector('.toggle-confirm-password');
+        const passwordStrengthIndicator = document.getElementById('password-strength-indicator');
+        const passwordMatchText = document.getElementById('password-match');
+        
+        // Toggle password visibility
+        togglePasswordBtn.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle icon
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+        
+        toggleConfirmPasswordBtn.addEventListener('click', function() {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+            
+            // Toggle icon
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-eye');
+            icon.classList.toggle('fa-eye-slash');
+        });
+        
+        // Check password strength
+        passwordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            
+            // Reset indicator
+            passwordStrengthIndicator.className = '';
+            
+            if (password.length === 0) {
+                return;
+            }
+            
+            // Check password strength
+            if (password.length < 6) {
+                passwordStrengthIndicator.classList.add('strength-weak');
+            } else if (password.length < 10) {
+                passwordStrengthIndicator.classList.add('strength-medium');
+            } else {
+                passwordStrengthIndicator.classList.add('strength-strong');
+            }
+        });
+        
+        // Check if passwords match
+        confirmPasswordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            
+            if (confirmPassword.length === 0) {
+                passwordMatchText.textContent = '';
+                return;
+            }
+            
+            if (password === confirmPassword) {
+                passwordMatchText.textContent = 'Passwords match!';
+                passwordMatchText.className = 'form-text text-success';
+            } else {
+                passwordMatchText.textContent = 'Passwords do not match!';
+                passwordMatchText.className = 'form-text text-danger';
+            }
+        });
+        
+        // Handle register form submission
+        registerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = nameInput.value.trim();
+            const comp = compInput.value.trim();
+            const email = emailInput.value.trim();
+            const school = schoolInput.value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const termsAgree = document.getElementById('terms-agree').checked;
+            
+            // Validate inputs
+            if (!name || !comp || !email || !school || !password || !confirmPassword) {
+                auth.showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                auth.showNotification('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                auth.showNotification('Password must be at least 6 characters long', 'error');
+                return;
+            }
+            
+            if (!termsAgree) {
+                auth.showNotification('You must agree to the Terms and Conditions', 'error');
+                return;
+            }
+            
+            // Register user
+            auth.register(email, password, comp, name, school);
+        });
+        
+        // Check if user is already logged in
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // User is already logged in, redirect to home
+                window.location.href = '/';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -14,7 +14,7 @@ try {
 // Initialize Firebase Admin
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  storageBucket: 'findit-910.appspot.com' // Replace with your actual bucket name
+  storageBucket: "findit-910.firebasestorage.app" // Replace with your actual bucket name
 });
 
 const db = admin.firestore();

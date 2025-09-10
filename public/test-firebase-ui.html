@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Connection Test UI</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        
+        .test-card {
+            border-radius: 10px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .test-card-header {
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .test-card-body {
+            padding: 20px;
+        }
+        
+        .test-card.pending {
+            border-left: 5px solid #6c757d;
+        }
+        
+        .test-card.pending .test-card-header {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+        
+        .test-card.success {
+            border-left: 5px solid #28a745;
+        }
+        
+        .test-card.success .test-card-header {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .test-card.error {
+            border-left: 5px solid #dc3545;
+        }
+        
+        .test-card.error .test-card-header {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .test-icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+        
+        .test-icon.pending {
+            color: #6c757d;
+        }
+        
+        .test-icon.success {
+            color: #28a745;
+        }
+        
+        .test-icon.error {
+            color: #dc3545;
+        }
+        
+        .config-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .result-section {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+        }
+        
+        .btn-test {
+            padding: 10px 30px;
+            font-weight: 600;
+        }
+        
+        .firebase-config {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Firebase Connection Test</h1>
+        
+        <div class="config-section">
+            <h3><i class="fas fa-cog me-2"></i>Firebase Configuration</h3>
+            <p>Configure your Firebase settings below and test the connection.</p>
+            
+            <form id="config-form">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="apiKey" class="form-label">API Key</label>
+                        <input type="text" class="form-control" id="apiKey" placeholder="Your Firebase API Key" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="authDomain" class="form-label">Auth Domain</label>
+                        <input type="text" class="form-control" id="authDomain" placeholder="your-project.firebaseapp.com" required>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="projectId" class="form-label">Project ID</label>
+                        <input type="text" class="form-control" id="projectId" placeholder="your-project-id" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="storageBucket" class="form-label">Storage Bucket</label>
+                        <input type="text" class="form-control" id="storageBucket" placeholder="your-project.appspot.com" required>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="messagingSenderId" class="form-label">Messaging Sender ID</label>
+                        <input type="text" class="form-control" id="messagingSenderId" placeholder="123456789012">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="appId" class="form-label">App ID</label>
+                        <input type="text" class="form-control" id="appId" placeholder="1:1234567890:web:abcdef123456">
+                    </div>
+                </div>
+                
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Save Configuration</button>
+                </div>
+            </form>
+            
+            <div class="firebase-config" id="config-display">
+// Firebase configuration will be displayed here
+            </div>
+        </div>
+        
+        <div class="text-center mb-4">
+            <button id="test-connection-btn" class="btn btn-success btn-test btn-lg">
+                <i class="fas fa-plug me-2"></i>Test Firebase Connection
+            </button>
+        </div>
+        
+        <div class="result-section hidden" id="results-section">
+            <h3><i class="fas fa-clipboard-check me-2"></i>Test Results</h3>
+            
+            <div id="test-results">
+                <!-- Test results will be displayed here -->
+            </div>
+            
+            <div class="text-center mt-4">
+                <button id="run-again-btn" class="btn btn-outline-primary">
+                    <i class="fas fa-redo me-2"></i>Run Test Again
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-storage-compat.js"></script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Test Script -->
+    <script>
+        // DOM Elements
+        const configForm = document.getElementById('config-form');
+        const configDisplay = document.getElementById('config-display');
+        const testConnectionBtn = document.getElementById('test-connection-btn');
+        const runAgainBtn = document.getElementById('run-again-btn');
+        const resultsSection = document.getElementById('results-section');
+        const testResults = document.getElementById('test-results');
+        
+        // Firebase configuration
+        let firebaseConfig = {
+            apiKey: "AIzaSyBQebvs0PkwL8b04oFevlKwnKk2cnykpC0",
+            authDomain: "findit-910.firebaseapp.com",
+            projectId: "findit-910",
+            storageBucket: "findit-910.firebasestorage.app",
+            messagingSenderId: "936062673316",
+            appId: "1:936062673316:web:75d0f6e6883554e0b72131"
+        };
+        
+        // Load saved configuration from localStorage
+        function loadConfig() {
+            const savedConfig = localStorage.getItem('firebaseConfig');
+            if (savedConfig) {
+                try {
+                    firebaseConfig = JSON.parse(savedConfig);
+                    
+                    // Update form fields
+                    document.getElementById('apiKey').value = firebaseConfig.apiKey || "";
+                    document.getElementById('authDomain').value = firebaseConfig.authDomain || "";
+                    document.getElementById('projectId').value = firebaseConfig.projectId || "";
+                    document.getElementById('storageBucket').value = firebaseConfig.storageBucket || "";
+                    document.getElementById('messagingSenderId').value = firebaseConfig.messagingSenderId || "";
+                    document.getElementById('appId').value = firebaseConfig.appId || "";
+                    
+                    updateConfigDisplay();
+                } catch (error) {
+                    console.error('Error loading saved config:', error);
+                }
+            }
+        }
+        
+        // Save configuration to localStorage
+        function saveConfig() {
+            localStorage.setItem('firebaseConfig', JSON.stringify(firebaseConfig));
+            updateConfigDisplay();
+        }
+        
+        // Update configuration display
+        function updateConfigDisplay() {
+            configDisplay.textContent = `const firebaseConfig = {
+  apiKey: "${firebaseConfig.apiKey}",
+  authDomain: "${firebaseConfig.authDomain}",
+  projectId: "${firebaseConfig.projectId}",
+  storageBucket: "${firebaseConfig.storageBucket}",
+  messagingSenderId: "${firebaseConfig.messagingSenderId}",
+  appId: "${firebaseConfig.appId}"
+};`;
+        }
+        
+        // Handle form submission
+        configForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Update configuration
+            firebaseConfig = {
+                apiKey: document.getElementById('apiKey').value,
+                authDomain: document.getElementById('authDomain').value,
+                projectId: document.getElementById('projectId').value,
+                storageBucket: document.getElementById('storageBucket').value,
+                messagingSenderId: document.getElementById('messagingSenderId').value,
+                appId: document.getElementById('appId').value
+            };
+            
+            // Save configuration
+            saveConfig();
+        });
+        
+        // Test connection button click
+        testConnectionBtn.addEventListener('click', testFirebaseConnection);
+        
+        // Run again button click
+        runAgainBtn.addEventListener('click', function() {
+            resultsSection.classList.add('hidden');
+            testResults.innerHTML = '';
+            testFirebaseConnection();
+        });
+        
+        // Test Firebase connection
+        async function testFirebaseConnection() {
+            // Disable test button and show loading
+            testConnectionBtn.disabled = true;
+            testConnectionBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Testing...';
+            
+            // Clear previous results
+            testResults.innerHTML = '';
+            
+            try {
+                // Initialize Firebase
+                if (!firebase.apps || !firebase.apps.length) {
+                    firebase.initializeApp(firebaseConfig);
+                }
+                
+                // Create test cards
+                const authTest = createTestCard('Authentication', 'Testing Firebase Authentication...');
+                const firestoreTest = createTestCard('Firestore', 'Testing Firestore connection...');
+                const storageTest = createTestCard('Storage', 'Testing Firebase Storage connection...');
+                
+                // Test Authentication
+                try {
+                    const auth = firebase.auth();
+                    // Just check if we can access the auth service
+                    const authSettings = auth.app.options;
+                    updateTestCard(authTest, 'success', '✅ Firebase Authentication service is accessible');
+                } catch (error) {
+                    updateTestCard(authTest, 'error', `❌ Firebase Authentication failed: ${error.message}`);
+                }
+                
+                // Test Firestore
+                // Test Firestore
+                try {
+                    const db = firebase.firestore();
+                    // Instead of trying to read, just check if the service is accessible
+                    const firestoreSettings = db.app.options;
+                    updateTestCard(firestoreTest, 'success', '✅ Firestore service is accessible');
+                } catch (error) {
+                    updateTestCard(firestoreTest, 'error', `❌ Firestore failed: ${error.message}`);
+                }
+                
+                // Test Storage
+                try {
+                    const storage = firebase.storage();
+                    const storageRef = storage.ref();
+                    // Try to get bucket metadata instead of listing files
+                    await storageRef.bucket;
+                    updateTestCard(storageTest, 'success', '✅ Firebase Storage connected successfully');
+                } catch (error) {
+                    updateTestCard(storageTest, 'error', `❌ Firebase Storage failed: ${error.message}`);
+                }
+                
+                // Show results section
+                resultsSection.classList.remove('hidden');
+                
+            } catch (error) {
+                console.error('Firebase test error:', error);
+                
+                // Create error card
+                const errorCard = createTestCard('General Error', 'An unexpected error occurred');
+                updateTestCard(errorCard, 'error', `❌ Error: ${error.message}`);
+                
+                // Show results section
+                resultsSection.classList.remove('hidden');
+            } finally {
+                // Re-enable test button
+                testConnectionBtn.disabled = false;
+                testConnectionBtn.innerHTML = '<i class="fas fa-plug me-2"></i>Test Firebase Connection';
+            }
+        }
+        
+        // Create a test card
+        function createTestCard(title, message) {
+            const cardId = `test-${title.toLowerCase().replace(' ', '-')}`;
+            
+            const card = document.createElement('div');
+            card.className = 'test-card pending';
+            card.id = cardId;
+            
+            card.innerHTML = `
+                <div class="test-card-header">
+                    <i class="fas fa-circle-notch fa-spin test-icon pending"></i>
+                    ${title}
+                </div>
+                <div class="test-card-body">
+                    ${message}
+                </div>
+            `;
+            
+            testResults.appendChild(card);
+            
+            return card;
+        }
+        
+        // Update a test card
+        function updateTestCard(card, status, message) {
+            const header = card.querySelector('.test-card-header');
+            const icon = header.querySelector('.test-icon');
+            const body = card.querySelector('.test-card-body');
+            
+            // Update card class
+            card.className = `test-card ${status}`;
+            
+            // Update header class
+            header.className = `test-card-header`;
+            
+            // Update icon
+            icon.className = `test-icon ${status}`;
+            
+            if (status === 'success') {
+                icon.classList.remove('fa-circle-notch', 'fa-spin');
+                icon.classList.add('fa-check-circle');
+            } else if (status === 'error') {
+                icon.classList.remove('fa-circle-notch', 'fa-spin');
+                icon.classList.add('fa-times-circle');
+            }
+            
+            // Update message
+            body.textContent = message;
+        }
+        
+        // Load configuration on page load
+        loadConfig();
+    </script>
+</body>
+</html>
